@@ -1,32 +1,40 @@
 public class sortOfSort {
-    public static void sortOfSort(int[] arr) {
-        int index;
+    public static void sortOfSort(int[] arr, int index, int length, int count) {
         int temp;
-        int count = 0;
-        for (int i = arr.length-1; i >= 0; i--) {
-            index = i;
-            for (int k = i - 1; k >= 0; k--) {
-                if (arr[k] > arr[index] && (count == 0 || count == 1)) {
-                    index = k;
+        int prev;
+        if(index > length){return;}
+
+        if(count%2==0){
+            for(int i = index+1; i < length; i++){
+                temp = arr[i];
+                prev = i-1;
+                while (prev>=0 && arr[prev] > temp){
+                    arr[prev+1] = arr[prev];
+                    prev = prev -1;
                 }
-                if (arr[k] < arr[index] && count>2) {
-                    index = k;
-                }
-                if (arr[k] > arr[index] && count>2) {
-                    index = k;
-                }
+                arr[prev+1]= temp;
             }
-            temp = arr[index];
-            arr[index] = arr[i];
-            arr[i] = temp;
-            count++;
+            sortOfSort(arr, index, length-2, count+1);
+        }
+
+        if(count%2==1){
+            for(int i = index+1; i < length; i++){
+                temp = arr[i];
+                prev = i-1;
+                while (prev>=0 && arr[prev] < temp){
+                    arr[prev+1] = arr[prev];
+                    prev = prev -1;
+                }
+                arr[prev+1]= temp;
+            }
+            sortOfSort(arr, index+2, length, count+1);
         }
     }
 
 
     public static void main(String[] args) {
-        int[] arr = {1,5,2,3,4,7,8};
-        sortOfSort(arr);
+        int[] arr = {3,4,8,7};
+        sortOfSort(arr, 0, arr.length,0);
         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
